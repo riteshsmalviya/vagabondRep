@@ -6,6 +6,7 @@ import 'package:vagabond/screens/login.dart';
 import 'package:vagabond/screens/main_menu.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

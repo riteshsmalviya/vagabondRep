@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:vagabond/screens/register.dart';
 
@@ -9,6 +11,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late final TextEditingController _name;
+  late final TextEditingController _password;
+
+  @override
+  void initState() {
+    _name = TextEditingController();
+    _password = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _name.dispose();
+    _password.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final BoxConstraints constraints = BoxConstraints(
@@ -83,7 +102,8 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                           const SizedBox(height: 20),
-                          const TextField(
+                          TextField(
+                            controller: _name,
                             decoration: InputDecoration(
                               labelText: 'Email/Username',
                               hintText: 'Enter your email or username',
@@ -91,7 +111,8 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          const TextField(
+                          TextField(
+                            controller: _password,
                             obscureText: true,
                             decoration: InputDecoration(
                               labelText: 'Password',
