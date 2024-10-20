@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vagabond/screens/register.dart';
+import 'home_page.dart'; // Import the HomePage
+import 'register.dart'; // Import the RegisterPage
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,11 +10,33 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  // Simple mock authentication function
+  void _login() {
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+
+    if (username.isEmpty || password.isEmpty) {
+      // Show an error message if fields are empty
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter both username and password')),
+      );
+    } else {
+      // Assuming login is successful, navigate to the home page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final BoxConstraints constraints = BoxConstraints(
         maxWidth:
-            MediaQuery.of(context).size.width * 0.9, // 80% of screen width
+            MediaQuery.of(context).size.width * 0.9, // 90% of screen width
         maxHeight: MediaQuery.of(context).size.height * 0.9);
     return Scaffold(
       body: SafeArea(
@@ -67,10 +90,11 @@ class _LoginPageState extends State<LoginPage> {
                               Expanded(
                                 child: OutlinedButton(
                                   onPressed: () {
+                                    // Navigate to the Register Page
                                     Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const RegisterPage()));
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const RegisterPage()));
                                   },
                                   style: OutlinedButton.styleFrom(
                                     padding: const EdgeInsets.symmetric(
@@ -83,17 +107,19 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
                           const SizedBox(height: 20),
-                          const TextField(
-                            decoration: InputDecoration(
+                          TextField(
+                            controller: _usernameController, // Controller for username
+                            decoration: const InputDecoration(
                               labelText: 'Email/Username',
                               hintText: 'Enter your email or username',
                               border: OutlineInputBorder(),
                             ),
                           ),
                           const SizedBox(height: 10),
-                          const TextField(
+                          TextField(
+                            controller: _passwordController, // Controller for password
                             obscureText: true,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Password',
                               hintText: 'Enter your password',
                               border: OutlineInputBorder(),
@@ -101,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 20),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: _login, // Call the login function
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,
                               foregroundColor: Colors.white,
